@@ -1,0 +1,24 @@
+%CPU %MEM ARGS Sat Oct  3 07:00:34 PM UTC 2026
+ 0.0  0.0 ./cli kernel images/32x32.b   0  1412
+ 0.0  0.0 ./cli kernel images/32x32.b   0  1412
+ 0.0  0.0 ./cli kernel images/32x32.b   0  1404
+ 0.0  0.0 ./cli kernel images/32x32.b   0  1428
+ 0.0  0.0 ./cli kernel images/32x32.b   0  1388
+ 0.0  0.0 grep --color=auto ./cli       0  2336
+ 6.1  2.9 ./cli kernel images/4096x40   0 394520
+  PID User     Command                         Swap      USS      PSS      RSS 
+24090 root     ./cli kernel images/32x32.b        0      116      167     1412 
+24094 root     ./cli kernel images/32x32.b        0      116      167     1412 
+24096 root     ./cli kernel images/32x32.b        0      120      170     1404 
+24098 root     ./cli kernel images/32x32.b        0      120      172     1428 
+24101 root     ./cli kernel images/32x32.b        0      124      174     1388 
+24105 root     /usr/bin/python3 /usr/bin/s        0     7280     8231    13672 
+24092 root     /usr/bin/python3 /usr/bin/s        0     7652     8701    14440 
+13133 root     ./cli kernel images/4096x40        0   393324   393372   394520 
+%CPU %MEM ARGS Sat Oct  3 07:00:35 PM UTC 2026
+ 0.0  0.0 grep --color=auto ./cli       0  2360
+ 6.1  2.9 ./cli kernel images/4096x40   1 394520
+  PID User     Command                         Swap      USS      PSS      RSS 
+24117 root     /usr/bin/python3 /usr/bin/s        0     7372     8389    13968 
+24113 root     /usr/bin/python3 /usr/bin/s        0     7644     8716    14484 
+13133 root     ./cli kernel images/4096x40        0   393328   393388   394520 
