@@ -1,4 +1,3 @@
-#include "loader.h"
-
+#include "common.h"
 
 struct image* apply_kernel(struct image* img, int* kernel, int ksize, float normalize);

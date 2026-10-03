@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "kernel.h"
+#include "loader.h"
 
 
 int compare_images(struct image* img1, struct image* img2, int error_thresh) {
