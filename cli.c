@@ -7,9 +7,9 @@
 int generate_pagefault() {
 
     struct image img;
-    img->height = 1024 * 256;
-    img->width = 1024;
-    img->pixels = NULL;
+    img.height = 1024 * 256;
+    img.width = 1024;
+    img.pixels = NULL;
 
     saveimage_mmap("fault.bin", &img);
 
