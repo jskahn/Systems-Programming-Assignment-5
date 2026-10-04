@@ -1,6 +1,6 @@
 #!/bin/bash
 echo "converting input to binary format..."
-./cli convert images/4096x4096.bmp 4096 4096 images/4096x4096.bin
+./cli convert images/512x512.bmp 512 512 images/512x512.bin
 
 
 rm -rf ps.log
@@ -16,7 +16,7 @@ mkdir testout
 echo "starting convolutions..."
 for i in $(eval echo {1..${1}})
 do
-    ./cli mmap images/4096x4096.bin 4096 4096 testout/out-${i}.bin&
+    ./cli mmap images/512x512.bin 512 512 testout/out-${i}.bin&
     pids[${i}]=$!
     echo $(date)
 done
