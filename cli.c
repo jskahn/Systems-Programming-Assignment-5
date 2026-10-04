@@ -9,11 +9,32 @@ int generate_pagefault() {
     struct image img;
     img.height = 1024 * 256;
     img.width = 1024;
-    img.pixels = NULL;
+    img.pixels = malloc(sizeof(struct pixel) * img.width * img.height);
+    
+    if (img.pixels != NULL) {
+        // Fill memory and save to disk so a real file exists
+        memset(img.pixels, 0, sizeof(struct pixel) * img.width * img.height);
+        saveimage_mmap("fault.bin", &img);
+        free(img.pixels);
+    }
 
-    saveimage_mmap("fault.bin", &img);
+    // 2. Memory-map the file from disk (PROT_READ)
+    struct image mapped_img;
+    mapped_img.width = 1024;
+    mapped_img.height = 1024;
+
+    if (loadimage_mmap("fault.bin", &mapped_img) == 0) {
+        volatile struct pixel p = mapped_img.pixels[0];
+        (void)p;
+
+        // Clean up mapping
+        void* mapping_start = (char*)mapped_img.pixels - sizeof(struct image);
+        size_t mapping_len = (size_t)mapped_img.width * mapped_img.height * sizeof(struct pixel) + sizeof(struct image);
+        munmap(mapping_start, mapping_len);
+    }
 
     return 0;
+
 }
 
 /*
