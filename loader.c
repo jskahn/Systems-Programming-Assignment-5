@@ -2,7 +2,6 @@
 #include <sys/mman.h>
 #include <errno.h>
 
-
 /*
  * Loads an image from a raw image file using memory-mapped I/O.
  *
@@ -27,7 +26,30 @@
  * Returns 0 on success, or -1 if the file cannot be opened or mapped.
  */
 int loadimage_mmap(char* filename, struct image* image) {
-	return 0;
+
+	size_t alloc_size = (size_t)image->height * image->width * sizeof(struct pixel) + sizeof(struct image);
+
+	int fd = open(filename, O_RDONLY);
+	if (fd == -1) return -1;
+
+	void *mapped = mmap(NULL,       // Desired start address (NULL lets OS choose)
+         alloc_size, // Length of the mapping
+         PROT_READ,  // Memory protection: readable
+         MAP_PRIVATE, // Visibility: private to the process
+         fd,                      // File descriptor: -1 for anonymous mapping
+         0);
+
+	close(fd);
+
+	if (mapped == MAP_FAILED) return -1;
+
+	struct image *header_in_file = (struct image *)mapped;
+    image->width = header_in_file->width;
+    image->height = header_in_file->height;
+
+    image->pixels = (struct pixel *)((char *)mapped + sizeof(struct image));
+
+    return 0;
 }
 
 /*
@@ -47,6 +69,40 @@ int loadimage_mmap(char* filename, struct image* image) {
  * A failed flush to disk is reported but still returns 0.
  */
 int saveimage_mmap(char* filename, struct image* image) {
+
+	size_t header_size = sizeof(struct image);
+	size_t alloc_size = (size_t)image->height * image->width * sizeof(struct pixel) + header_size;
+
+	int fd = open(filename, O_RDWR | O_CREAT | O_TRUNC, 0644);
+	if (fd == -1) return -1;
+
+	if (ftruncate(fd, alloc_size) == -1) {
+		close(fd);
+		return -1;
+	}
+
+	void* mapped = mmap(NULL, alloc_size, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
+	
+	close(fd);
+
+	if (mapped == MAP_FAILED) return -1;
+
+	struct image* image_header = (struct image*) mapped;
+	image_header->width = image->width;
+	image_header->height = image->height;
+
+	struct pixel* image_pixels = (struct pixel*)((char*)mapped + header_size);
+	size_t num_pixels = (size_t)image->width * image->height;
+
+	for (size_t i = 0; i < num_pixels; i++) {
+		image_pixels[i] = image->pixels[i];
+	}
+
+	msync(mapped, alloc_size, MS_SYNC);
+	if (munmap(mapped, alloc_size) == -1) {
+		return -1;
+	}
+
 	return 0;
 }
 

@@ -1,0 +1,7 @@
+(1) 
+I had to decrease the image size to 512x512 since it was taking an extremely long time running on google colab.
+From the logs of log-normal-1.out, there is a single process ID which is consistently taking 6256 USS, 6319 PSS, and 7532 RSS throughout the run.
+
+(2)
+From the logs of log-normal-5.out, there are now 5 process IDs which consistently take around 6248 USS, 6300 PSS, and 7545 RSS throughout the run.
+
