@@ -5,3 +5,10 @@ From the logs of log-normal-1.out, there is a single process ID which is consist
 (2)
 From the logs of log-normal-5.out, there are now 5 process IDs which consistently take around 6248 USS, 6300 PSS, and 7545 RSS throughout the run.
 
+(3)
+log-mmap-5.out shows consistently lower USS and PSS usage than log-normal-5.out with ~3200 USS and ~3800 PSS compared to ~6250 USS and ~6300 PSS.
+The plot also shows execution time taking about 20 seconds or so less using mmap relative to normal.
+
+(4)
+When running the time command for the sky.bmp image, I observed 1671 minor (reclaiming frame) page faults, compared to 16 major (requiring I/O).
+This shows a fairly limited need to go to disk versus just pointing to existing RAM for additional pixel data.
