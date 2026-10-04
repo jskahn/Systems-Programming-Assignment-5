@@ -230,5 +230,7 @@ int main(int argc, char** argv){
         return convert_bmp_to_bin(width, height, in_filepath, out_filepath);
     } else if (strcmp(mode, "uconvert") == 0) {
         return convert_bin_to_bmp(in_filepath, out_filepath);
+    } else if (strcmp(mode, "fault") == 0) {
+        return generate_pagefault();
     }
 }
